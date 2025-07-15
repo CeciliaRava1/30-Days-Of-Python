@@ -163,16 +163,3 @@ top_10_population = sorted_country_population[:10]
 print("Ten most populated countries:")
 for country, count in top_10_population:
      print(f"- {country}: {count}")
-    
-
-# # Ten languages more spoken
-# language_counts = {}
-# for lang in languages_item_list:
-#     language_counts[lang] = language_counts.get(lang, 0) + 1
-
-# sorted_languages = sorted(language_counts.items(), key=lambda item: item[1], reverse=True)
-# top_10_languages = sorted_languages[:10]
-
-# print("Ten languages more spoken:")
-# for lang, count in top_10_languages:
-#     print(f"- {lang}: {count} countries")

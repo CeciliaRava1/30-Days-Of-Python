@@ -1,6 +1,10 @@
 ### higher order functions ###
 
-countries = ['Estonia', 'Finland', 'Sweden', 'Denmark', 'Norway', 'Iceland']
+from data.countries import countries
+from data.countries_data import countries_data
+
+
+# countries = ['Estonia', 'Finland', 'Sweden', 'Denmark', 'Norway', 'Iceland']
 names = ['Asabeneh', 'Lidiya', 'Ermias', 'Abraham']
 numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
@@ -41,14 +45,6 @@ Use filter to filter out countries having exactly six characters.
 Use filter to filter out countries containing six letters and more in the country list.
 Use filter to filter out countries starting with an 'E'
 Chain two or more list iterators (eg. arr.map(callback).filter(callback).reduce(callback))
-
-Declare a function called get_string_lists which takes a list as a parameter and then returns a list containing only string items.
-Use reduce to sum all the numbers in the numbers list.
-Use reduce to concatenate all the countries and to produce this sentence: Estonia, Finland, Sweden, Denmark, Norway, and Iceland are north European countries
-Declare a function called categorize_countries that returns a list of countries with some common pattern (you can find the countries list in this repository as countries.js(eg 'land', 'ia', 'island', 'stan')).
-Create a function returning a dictionary, where keys stand for starting letters of countries and values are the number of country names starting with that letter.
-Declare a get_first_ten_countries function - it returns a list of first ten countries from the countries.js list in the data folder.
-Declare a get_last_ten_countries function that returns the last ten countries in the countries list.
 '''
 
 def to_upper(country):
@@ -102,11 +98,102 @@ countries_start_with_e = filter(start_with_e, countries)
 numbers_higher_two = list(map(squared, filter(lambda x: x > 2, numbers))) # 1. Filter, 2. Map
 # print(numbers_higher_two)
 
+
+'''
+Declare a function called get_string_lists which takes a list as a parameter and then returns a list containing only string items.
+Use reduce to sum all the numbers in the numbers list.
+Use reduce to concatenate all the countries and to produce this sentence: 
+Estonia, Finland, Sweden, Denmark, Norway, and Iceland are north European countries
+Declare a function called categorize_countries that returns a list of countries with some common pattern 
+Create a function returning a dictionary, where keys stand for starting letters of countries and values are the number 
+of country names starting with that letter.
+Declare a get_first_ten_countries function - it returns a list of first ten countries from the countries.js list in the data folder.
+Declare a get_last_ten_countries function that returns the last ten countries in the countries list.
+'''
+
+
+from functools import reduce
+
+def get_string_list(element):
+    if type(element) == str:
+        return True
+    else:
+        return False
+
+my_list = [1, 2, 'hello', 'bye', 5]
+string_list = filter(get_string_list, my_list)
+# print(list(string_list))
+
+
+sum = reduce(lambda x, y: x + y, numbers)
+# print(sum)
+
+
+# countries = ['Estonia', 'Finland', 'Sweden', 'Denmark', 'Norway', 'Iceland']
+concatenated_countries = reduce(lambda x, y: x + ', ' + y, countries)
+# print(concatenated_countries)
+
+
+def categorize_countries(country):
+    if 'land' in country:
+        return True
+    else:
+        return False
+countries_with_land = filter(categorize_countries, countries)
+# print(list(countries_with_land))
+
+
+def starts_with(countries):
+    newDict = {}
+    counter = 0
+    alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    for letter in alphabet:
+        counter = 0
+        for country in countries:
+            firstLetter = country.startswith(letter)
+            if firstLetter:
+                counter += 1
+        newDict[letter] = counter
+    return newDict  
+# print(starts_with(countries))
+
+
+def get_first_ten_countries(countries):
+    for country in countries[0:10]:
+        print(country)
+# (get_first_ten_countries(countries))
+
+
+def get_last_ten_countries(countries):
+    for country in countries[-10:]:
+        print(country)
+# get_last_ten_countries(countries)
+
+
 '''
 Exercises: Level 3
-Use the countries_data.py (https://github.com/Asabeneh/30-Days-Of-Python/blob/master/data/countries-data.py) file and follow the tasks below:
-Sort countries by name, by capital, by population
-Sort out the ten most spoken languages by location.
-Sort out the ten most populated countries.
+Sort countries
+    by capital
+    by population
 🎉 CONGRATULATIONS ! 🎉
 '''
+
+
+def sort_capital(countries):
+    capitals = {}
+    for country in countries_data:
+        if country['capital'] != '':
+            capitals[country['capital']] = country['name']
+    sorted_dict = dict(sorted(capitals.items()))
+    return sorted_dict
+# print(sort_capital(countries_data))
+
+def sort_population(countries):
+    population = {}
+    for country in countries_data:
+        population[country['population']] = country['name']
+    sorted_dict = dict(sorted(population.items(), reverse=True))
+    return sorted_dict
+# print(sort_population(countries_data))
+
+
